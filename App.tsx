@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { Home } from './src/screens/Home';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { View } from 'react-native';
@@ -11,6 +10,7 @@ import {
 } from '@expo-google-fonts/archivo';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
+import { CarDetails } from './src/screens/CarDetails';
 
 export default function App(): JSX.Element | null {
   const [fontsLoaded] = useFonts({
@@ -42,7 +42,7 @@ export default function App(): JSX.Element | null {
   return (
     <ThemeProvider theme={theme}>
       <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-        <Home />
+        <CarDetails />
       </View>
     </ThemeProvider>
   );
