@@ -9,7 +9,6 @@ import forceSvg from '../../assets/force.svg';
 import gasolineSvg from '../../assets/gasoline.svg';
 import exchangeSvg from '../../assets/exchange.svg';
 import peopleSvg from '../../assets/people.svg';
-
 import {
   Container,
   Header,
@@ -24,7 +23,9 @@ import {
   Price,
   About,
   Accessories,
+  Footer,
 } from './styles';
+import { Button } from '../../components/Button';
 
 export function CarDetails(): JSX.Element {
   return (
@@ -69,6 +70,10 @@ export function CarDetails(): JSX.Element {
           para quem gosta de acelerar.
         </About>
       </Content>
+
+      <Footer>
+        <Button title="Confirmar" />
+      </Footer>
     </Container>
   );
 }
