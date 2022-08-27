@@ -10,7 +10,7 @@ import {
 } from '@expo-google-fonts/archivo';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
-import { SchedulingDetails } from './src/screens/SchedulingDetails';
+import { SchedulingComplete } from './src/screens/SchedulingComplete';
 
 export default function App(): JSX.Element | null {
   const [fontsLoaded] = useFonts({
@@ -42,7 +42,7 @@ export default function App(): JSX.Element | null {
   return (
     <ThemeProvider theme={theme}>
       <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-        <SchedulingDetails />
+        <SchedulingComplete />
       </View>
     </ThemeProvider>
   );
