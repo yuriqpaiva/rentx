@@ -29,8 +29,8 @@ export function Home(): JSX.Element {
     fetchCars();
   }, []);
 
-  function handleCarDetails(): void {
-    navigation.navigate('CarDetails');
+  function handleCarDetails(car: CarDto): void {
+    navigation.navigate('CarDetails', { car });
   }
 
   return (
@@ -53,7 +53,7 @@ export function Home(): JSX.Element {
           data={cars}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <Car data={item} onPress={handleCarDetails} />
+            <Car data={item} onPress={() => handleCarDetails(item)} />
           )}
         />
       )}
