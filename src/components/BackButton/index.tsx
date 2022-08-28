@@ -16,7 +16,7 @@ export function BackButton({ color, ...rest }: Props): JSX.Element {
       <MaterialIcons
         name="chevron-left"
         size={24}
-        color={typeof color === 'string' ? color : theme.colors.text}
+        color={color ?? theme.colors.text}
       />
     </Container>
   );
