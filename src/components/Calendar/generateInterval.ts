@@ -30,7 +30,5 @@ export function generateInterval(
     };
   });
 
-  console.log(JSON.stringify(interval, null, 2));
-
   return interval;
 }
