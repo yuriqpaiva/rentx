@@ -95,12 +95,12 @@ export function Scheduling(): JSX.Element {
 
   return (
     <Container>
-      <StatusBar
-        barStyle="light-content"
-        translucent
-        backgroundColor="transparent"
-      />
       <Header>
+        <StatusBar
+          barStyle="light-content"
+          translucent
+          backgroundColor="transparent"
+        />
         <BackButton onPress={handleBack} color={theme.colors.shape} />
         <Title>
           Escolha uma{'\n'}
