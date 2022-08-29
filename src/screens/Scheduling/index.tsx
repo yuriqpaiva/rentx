@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTheme } from 'styled-components';
 import { BackButton } from '../../components/BackButton';
 import ArrowSvg from '../../assets/arrow.svg';
-import { Alert, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { Button } from '../../components/Button';
 import {
   Calendar,
@@ -54,10 +54,6 @@ export function Scheduling(): JSX.Element {
   );
 
   function handleConfirmRental(): void {
-    if (!rentalPeriod.startFormatted || !rentalPeriod.endFormatted) {
-      Alert.alert('Selecione o intervalo para alugar.');
-      return;
-    }
     navigation.navigate('SchedulingDetails', {
       car,
       dates: Object.keys(markedDates),
@@ -83,8 +79,6 @@ export function Scheduling(): JSX.Element {
 
     const firstDate = Object.keys(interval)[0];
     const endDate = Object.keys(interval)[Object.keys(interval).length - 1];
-
-    console.log(endDate);
 
     setRentalPeriod({
       startFormatted: format(
@@ -134,7 +128,11 @@ export function Scheduling(): JSX.Element {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" onPress={handleConfirmRental} />
+        <Button
+          title="Confirmar"
+          onPress={handleConfirmRental}
+          enabled={!!rentalPeriod.startFormatted}
+        />
       </Footer>
     </Container>
   );
