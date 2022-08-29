@@ -84,6 +84,8 @@ export function Scheduling(): JSX.Element {
     const firstDate = Object.keys(interval)[0];
     const endDate = Object.keys(interval)[Object.keys(interval).length - 1];
 
+    console.log(endDate);
+
     setRentalPeriod({
       startFormatted: format(
         getPlatformDate(new Date(firstDate)),
