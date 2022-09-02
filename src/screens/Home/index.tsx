@@ -6,7 +6,7 @@ import { Car } from '../../components/Car';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
 import { CarDto } from '../../dtos/CarDTO';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 import { Ionicons } from '@expo/vector-icons';
 import { Container, Header, TotalCars, HeaderContent, CarList } from './styles';
 import { useTheme } from 'styled-components';
@@ -98,7 +98,7 @@ export function Home(): JSX.Element {
         </HeaderContent>
       </Header>
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <CarList
           data={cars}
