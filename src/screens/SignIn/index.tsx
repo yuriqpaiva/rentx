@@ -2,7 +2,8 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { Button } from '../../components/Button';
-import { Container, Header, Subtitle, Title, Footer } from './styles';
+import { Input } from '../../components/Input';
+import { Container, Header, Subtitle, Title, Form, Footer } from './styles';
 
 export function SignIn(): JSX.Element {
   const theme = useTheme();
@@ -21,6 +22,16 @@ export function SignIn(): JSX.Element {
           uma experiência incrível
         </Subtitle>
       </Header>
+
+      <Form>
+        <Input
+          iconName="mail"
+          placeholder="E-mail"
+          keyboardType="email-address"
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
+      </Form>
 
       <Footer>
         <Button
