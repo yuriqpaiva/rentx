@@ -13,7 +13,7 @@
 <br/>
 
 <div align="center">
-<img align="center" src="https://i.ibb.co/VjP1cLw/Simulator-Screen-Shot-i-Phone-13-2022-09-02-at-11-59-41.png" with="300px" height="300px" />
+<img align="center" src="./assets/homeScreen.png" with="300px" height="300px" />
 <img align="center" src="https://i.ibb.co/PmvWrd0/Simulator-Screen-Shot-i-Phone-13-2022-09-02-at-11-59-46.png" with="300px" height="300px" />
 <img align="center" src="https://i.ibb.co/5s4Fwd6/Simulator-Screen-Shot-i-Phone-13-2022-09-02-at-11-59-51.png" with="300px" height="300px" />
 </div>
