@@ -21,7 +21,6 @@ export function ImageSlider({ imagesUrl }: Props): JSX.Element {
   const [imageIndex, setImageIndex] = useState(0);
 
   const indexChanged = useRef((info: ChangeImageProps) => {
-    // console.log(info);
     const index = info.viewableItems[0].index!;
     setImageIndex(index);
   });

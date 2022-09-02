@@ -46,7 +46,6 @@ export function MyCars(): JSX.Element {
     async function fetchCars(): Promise<void> {
       try {
         const { data } = await api.get('/schedules_byuser?user_id=1');
-        console.log(data);
 
         setCars(data);
       } catch (error) {
