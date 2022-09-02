@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, BackHandler } from 'react-native';
 import Logo from '../../assets/logo.svg';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Car } from '../../components/Car';
@@ -8,14 +8,7 @@ import api from '../../services/api';
 import { CarDto } from '../../dtos/CarDTO';
 import { Load } from '../../components/Load';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  Container,
-  Header,
-  TotalCars,
-  HeaderContent,
-  CarList,
-  MyCarsButton,
-} from './styles';
+import { Container, Header, TotalCars, HeaderContent, CarList } from './styles';
 import { useTheme } from 'styled-components';
 import Animated, {
   useAnimatedStyle,
@@ -24,6 +17,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { PanGestureHandler, RectButton } from 'react-native-gesture-handler';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
@@ -76,6 +70,12 @@ export function Home(): JSX.Element {
     fetchCars();
   }, []);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      return true;
+    });
+  }, []);
+
   function handleCarDetails(car: CarDto): void {
     navigation.navigate('CarDetails', { car });
   }
@@ -94,7 +94,7 @@ export function Home(): JSX.Element {
       <Header>
         <HeaderContent>
           <Logo width={RFValue(108)} height={RFValue(12)} />
-          <TotalCars>Total de {cars.length} carros</TotalCars>
+          {!loading && <TotalCars>Total de {cars.length} carros</TotalCars>}
         </HeaderContent>
       </Header>
       {loading ? (
@@ -113,7 +113,7 @@ export function Home(): JSX.Element {
         <Animated.View
           style={[
             myCarsButtonStyle,
-            { position: 'absolute', bottom: 13, right: 22 },
+            { position: 'absolute', bottom: getBottomSpace() + 13, right: 22 },
           ]}>
           <ButtonAnimated
             onPress={handleOpenMyCars}
