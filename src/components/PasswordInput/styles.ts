@@ -6,11 +6,12 @@ export const Container = styled.View`
   height: 50px;
 
   flex-direction: row;
-  margin-bottom: 8px;
 `;
 
 export const IconContainer = styled.View`
   width: 55px;
+  height: 50px;
+
   justify-content: center;
   align-items: center;
 
