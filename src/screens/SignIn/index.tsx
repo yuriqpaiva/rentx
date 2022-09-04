@@ -12,9 +12,11 @@ import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
 import { Container, Header, Subtitle, Title, Form, Footer } from './styles';
 import * as Yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
 
 export function SignIn(): JSX.Element {
   const theme = useTheme();
+  const navigation = useNavigation<any>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +44,10 @@ export function SignIn(): JSX.Element {
         );
       }
     }
+  }
+
+  function handleNewAccount(): void {
+    navigation.navigate('SignUpFirstStep');
   }
 
   return (
@@ -88,7 +94,8 @@ export function SignIn(): JSX.Element {
             />
             <Button
               title="Criar conta gratuita"
-              enabled={false}
+              onPress={handleNewAccount}
+              enabled={true}
               loading={false}
               color={theme.colors.background_secondary}
               light
