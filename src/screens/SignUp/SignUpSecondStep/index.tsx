@@ -48,6 +48,11 @@ export function SignUpSecondStep(): JSX.Element {
     }
 
     // Send to API and Register
+    navigation.navigate('Confirmation', {
+      title: 'Conta Criada!',
+      message: 'Agora é só fazer login\ne aproveitar',
+      nextScreenRoute: 'SignIn',
+    });
   }
 
   return (

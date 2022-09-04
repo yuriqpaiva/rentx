@@ -3,6 +3,16 @@ import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Feather } from '@expo/vector-icons';
+import { Button } from '../../components/Button';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { CarDto } from '../../dtos/CarDTO';
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
+import { format } from 'date-fns';
+import { getPlatformDate } from '../../utils/getPlatformDate';
+import api from '../../services/api';
+import { Alert } from 'react-native';
 import {
   Container,
   Header,
@@ -28,16 +38,6 @@ import {
   RentalPriceQuota,
   REntalPriceTotal,
 } from './styles';
-import { Button } from '../../components/Button';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { useTheme } from 'styled-components';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { CarDto } from '../../dtos/CarDTO';
-import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
-import { format } from 'date-fns';
-import { getPlatformDate } from '../../utils/getPlatformDate';
-import api from '../../services/api';
-import { Alert } from 'react-native';
 
 interface Params {
   car: CarDto;
@@ -88,7 +88,14 @@ export function SchedulingDetails(): JSX.Element {
         id: car.id,
         unavailable_dates,
       })
-      .then(() => navigation.navigate('SchedulingComplete'))
+      .then(() =>
+        navigation.navigate('Confirmation', {
+          title: 'Carro alugado!',
+          message:
+            'Agora você só precisa ir\naté a concessionária da RENTX\npegar o seu automóvel',
+          nextScreenRoute: 'Home',
+        }),
+      )
       .catch(() => {
         setLoading(false);
         Alert.alert('Não foi possível confirmar o agendamento');
