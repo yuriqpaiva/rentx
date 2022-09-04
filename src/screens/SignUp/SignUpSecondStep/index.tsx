@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Alert, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -16,20 +16,19 @@ import {
   Form,
   FormTitle,
 } from './styles';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../routes/stack.routes';
 
-interface Params {
-  user: {
-    name: string;
-    email: string;
-    driverLicense: string;
-  };
-}
+type NavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'SignUpSecondStep'
+>;
 
 export function SignUpSecondStep(): JSX.Element {
   const theme = useTheme();
-  const navigation = useNavigation<any>();
-  const route = useRoute();
-  const { user } = route.params as Params;
+  const navigation = useNavigation<NavigationProps>();
+  const route = useRoute<RouteProp<RootStackParamList, 'SignUpSecondStep'>>();
+  const { user } = route.params;
 
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');

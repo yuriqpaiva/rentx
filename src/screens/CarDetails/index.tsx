@@ -31,13 +31,21 @@ import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { StatusBar, StyleSheet } from 'react-native';
 import { useTheme } from 'styled-components';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import { RootStackParamList } from '../../routes/stack.routes';
 
 interface Params {
   car: CarDto;
 }
 
+type NavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'CarDetails'
+>;
+
 export function CarDetails(): JSX.Element {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProps>();
   const route = useRoute();
   const { car } = route.params as Params;
   const theme = useTheme();

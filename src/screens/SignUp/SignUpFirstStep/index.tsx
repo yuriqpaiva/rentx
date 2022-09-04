@@ -16,9 +16,16 @@ import {
   Form,
   FormTitle,
 } from './styles';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../routes/stack.routes';
+
+type NavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'SignUpFirstStep'
+>;
 
 export function SignUpFirstStep(): JSX.Element {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProps>();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

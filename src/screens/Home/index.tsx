@@ -18,13 +18,17 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PanGestureHandler, RectButton } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
+import { RootStackParamList } from '../../routes/stack.routes';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
+
+type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export function Home(): JSX.Element {
   const theme = useTheme();
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProps>();
   const [cars, setCars] = useState<CarDto[]>([]);
   const [loading, setLoading] = useState(true);
 

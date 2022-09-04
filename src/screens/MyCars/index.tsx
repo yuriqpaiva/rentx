@@ -23,6 +23,8 @@ import {
   CarFooterDate,
 } from './styles';
 import { LoadAnimation } from '../../components/LoadAnimation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../routes/stack.routes';
 
 interface CarProps {
   id: string;
@@ -32,11 +34,16 @@ interface CarProps {
   endDate: string;
 }
 
+type NavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'Confirmation'
+>;
+
 export function MyCars(): JSX.Element {
   const [cars, setCars] = useState<CarProps[]>([]);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProps>();
 
   function handleBack(): void {
     navigation.goBack();

@@ -9,9 +9,39 @@ import { MyCars } from '../screens/MyCars';
 import { SignIn } from '../screens/SignIn';
 import { SignUpFirstStep } from '../screens/SignUp/SignUpFirstStep';
 import { SignUpSecondStep } from '../screens/SignUp/SignUpSecondStep';
+import { CarDto } from '../dtos/CarDTO';
 // import { Splash } from '../screens/Splash';
 
-const { Navigator, Screen } = createNativeStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  SignIn: undefined;
+  SignUpFirstStep: undefined;
+  SignUpSecondStep: {
+    user: {
+      name: string;
+      email: string;
+      driverLicense: string;
+    };
+  };
+  CarDetails: {
+    car: CarDto;
+  };
+  Scheduling: {
+    car: CarDto;
+  };
+  SchedulingDetails: {
+    car: CarDto;
+    dates: string[];
+  };
+  MyCars: undefined;
+  Confirmation: {
+    title: string;
+    message: string;
+    nextScreenRoute: string;
+  };
+};
+
+const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
 export function StackRoutes(): JSX.Element {
   return (

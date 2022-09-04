@@ -38,6 +38,8 @@ import {
   RentalPriceQuota,
   REntalPriceTotal,
 } from './styles';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../routes/stack.routes';
 
 interface Params {
   car: CarDto;
@@ -49,10 +51,15 @@ interface RentalPeriodData {
   end: string;
 }
 
+type NavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'SchedulingDetails'
+>;
+
 export function SchedulingDetails(): JSX.Element {
   const theme = useTheme();
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProps>();
   const route = useRoute();
   const { car, dates } = route.params as Params;
 
