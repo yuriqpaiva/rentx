@@ -45,7 +45,7 @@ const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
 export function StackRoutes(): JSX.Element {
   return (
-    <Navigator screenOptions={{ headerShown: false }} initialRouteName="SignIn">
+    <Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
       <Screen name="SignIn" component={SignIn} />
       <Screen name="SignUpFirstStep" component={SignUpFirstStep} />
       <Screen name="SignUpSecondStep" component={SignUpSecondStep} />
