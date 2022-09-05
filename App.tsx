@@ -11,6 +11,7 @@ import {
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
 import { Routes } from './src/routes';
+import { AppProvider } from './src/hooks';
 
 export default function App(): JSX.Element | null {
   const [fontsLoaded] = useFonts({
@@ -42,7 +43,9 @@ export default function App(): JSX.Element | null {
   return (
     <ThemeProvider theme={theme}>
       <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-        <Routes />
+        <AppProvider>
+          <Routes />
+        </AppProvider>
       </View>
     </ThemeProvider>
   );

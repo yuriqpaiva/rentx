@@ -18,6 +18,7 @@ import {
 } from './styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../routes/stack.routes';
+import { useAuth } from '../../../hooks/auth';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -26,6 +27,8 @@ type NavigationProps = NativeStackNavigationProp<
 
 export function SignUpFirstStep(): JSX.Element {
   const navigation = useNavigation<NavigationProps>();
+  const { user } = useAuth();
+  console.log(user);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
