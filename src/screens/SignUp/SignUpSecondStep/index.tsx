@@ -18,6 +18,7 @@ import {
 } from './styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../routes/stack.routes';
+import api from '../../../services/api';
 
 type NavigationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -37,7 +38,7 @@ export function SignUpSecondStep(): JSX.Element {
     navigation.goBack();
   }
 
-  function handleRegister(): void {
+  async function handleRegister(): Promise<void> {
     if (!password || !passwordConfirm) {
       return Alert.alert('Informe a senha e a confirmação dela.');
     }
@@ -47,11 +48,21 @@ export function SignUpSecondStep(): JSX.Element {
     }
 
     // Send to API and Register
-    navigation.navigate('Confirmation', {
-      title: 'Conta Criada!',
-      message: 'Agora é só fazer login\ne aproveitar',
-      nextScreenRoute: 'SignIn',
-    });
+    await api
+      .post('/users', {
+        name: user.name,
+        email: user.email,
+        driver_license: user.driverLicense,
+        password,
+      })
+      .then(() => {
+        navigation.navigate('Confirmation', {
+          title: 'Conta Criada!',
+          message: 'Agora é só fazer login\ne aproveitar',
+          nextScreenRoute: 'SignIn',
+        });
+      })
+      .catch(() => Alert.alert('Opa', 'Não foi possível cadastrar'));
   }
 
   return (
