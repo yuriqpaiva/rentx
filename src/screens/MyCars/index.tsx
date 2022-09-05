@@ -24,7 +24,7 @@ import {
 } from './styles';
 import { LoadAnimation } from '../../components/LoadAnimation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes/stack.routes';
+import { AppStackParamList } from '../../routes/app.stack.routes';
 
 interface CarProps {
   id: string;
@@ -34,10 +34,7 @@ interface CarProps {
   endDate: string;
 }
 
-type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
-  'Confirmation'
->;
+type NavigationProps = NativeStackNavigationProp<AppStackParamList, 'MyCars'>;
 
 export function MyCars(): JSX.Element {
   const [cars, setCars] = useState<CarProps[]>([]);

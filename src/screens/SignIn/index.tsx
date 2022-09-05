@@ -14,13 +14,10 @@ import { Container, Header, Subtitle, Title, Form, Footer } from './styles';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes/stack.routes';
+import { AuthStackParamList } from '../../routes/auth.stack.routes';
 import { useAuth } from '../../hooks/auth';
 
-type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
-  'Confirmation'
->;
+type NavigationProps = NativeStackNavigationProp<AuthStackParamList, 'SignIn'>;
 
 export function SignIn(): JSX.Element {
   const theme = useTheme();

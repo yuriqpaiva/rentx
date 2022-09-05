@@ -17,10 +17,10 @@ import {
   FormTitle,
 } from './styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../routes/stack.routes';
+import { AuthStackParamList } from '../../../routes/auth.stack.routes';
 
 type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
+  AuthStackParamList,
   'SignUpFirstStep'
 >;
 

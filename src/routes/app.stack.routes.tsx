@@ -6,23 +6,12 @@ import { Scheduling } from '../screens/Scheduling';
 import { SchedulingDetails } from '../screens/SchedulingDetails';
 import { Confirmation } from '../screens/Confirmation';
 import { MyCars } from '../screens/MyCars';
-import { SignIn } from '../screens/SignIn';
-import { SignUpFirstStep } from '../screens/SignUp/SignUpFirstStep';
-import { SignUpSecondStep } from '../screens/SignUp/SignUpSecondStep';
 import { CarDto } from '../dtos/CarDTO';
-// import { Splash } from '../screens/Splash';
+import { Splash } from '../screens/Splash';
 
-export type RootStackParamList = {
+export type AppStackParamList = {
+  Splash: undefined;
   Home: undefined;
-  SignIn: undefined;
-  SignUpFirstStep: undefined;
-  SignUpSecondStep: {
-    user: {
-      name: string;
-      email: string;
-      driverLicense: string;
-    };
-  };
   CarDetails: {
     car: CarDto;
   };
@@ -41,14 +30,12 @@ export type RootStackParamList = {
   };
 };
 
-const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
+const { Navigator, Screen } = createNativeStackNavigator<AppStackParamList>();
 
-export function StackRoutes(): JSX.Element {
+export function AppStackRoutes(): JSX.Element {
   return (
     <Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
-      <Screen name="SignIn" component={SignIn} />
-      <Screen name="SignUpFirstStep" component={SignUpFirstStep} />
-      <Screen name="SignUpSecondStep" component={SignUpSecondStep} />
+      <Screen name="Splash" component={Splash} />
       <Screen
         name="Home"
         component={Home}

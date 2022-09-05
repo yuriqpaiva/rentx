@@ -6,8 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { Button } from '../../components/Button';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { CarDto } from '../../dtos/CarDTO';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { format } from 'date-fns';
 import { getPlatformDate } from '../../utils/getPlatformDate';
@@ -39,12 +38,7 @@ import {
   REntalPriceTotal,
 } from './styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes/stack.routes';
-
-interface Params {
-  car: CarDto;
-  dates: string[];
-}
+import { AppStackParamList } from '../../routes/app.stack.routes';
 
 interface RentalPeriodData {
   start: string;
@@ -52,7 +46,7 @@ interface RentalPeriodData {
 }
 
 type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
+  AppStackParamList,
   'SchedulingDetails'
 >;
 
@@ -60,12 +54,12 @@ export function SchedulingDetails(): JSX.Element {
   const theme = useTheme();
 
   const navigation = useNavigation<NavigationProps>();
-  const route = useRoute();
-  const { car, dates } = route.params as Params;
+  const route = useRoute<RouteProp<AppStackParamList, 'SchedulingDetails'>>();
+  const { car, dates } = route.params;
 
   const [loading, setLoading] = useState(false);
 
-  const rentTotal = Number(dates.length * car.rent.price);
+  const rentTotal = Number(dates.length * car.price);
 
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodData>(
     {} as RentalPeriodData,
@@ -141,8 +135,8 @@ export function SchedulingDetails(): JSX.Element {
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>R$ ${car.rent.price}</Price>
+            <Period>{car.period}</Period>
+            <Price>R$ ${car.price}</Price>
           </Rent>
         </Details>
 
@@ -184,7 +178,7 @@ export function SchedulingDetails(): JSX.Element {
         <RentalPrice>
           <RentalPriceLabel>TOTAL</RentalPriceLabel>
           <RentalPriceDetails>
-            <RentalPriceQuota>{`R$ ${car.rent.price} x${dates.length} diárias`}</RentalPriceQuota>
+            <RentalPriceQuota>{`R$ ${car.price} x${dates.length} diárias`}</RentalPriceQuota>
             <REntalPriceTotal>R$ ${rentTotal}</REntalPriceTotal>
           </RentalPriceDetails>
         </RentalPrice>

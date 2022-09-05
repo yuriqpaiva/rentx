@@ -25,29 +25,24 @@ import {
   Footer,
 } from './styles';
 import { Button } from '../../components/Button';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { CarDto } from '../../dtos/CarDTO';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { StatusBar, StyleSheet } from 'react-native';
 import { useTheme } from 'styled-components';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { RootStackParamList } from '../../routes/stack.routes';
-
-interface Params {
-  car: CarDto;
-}
+import { AppStackParamList } from '../../routes/app.stack.routes';
 
 type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
+  AppStackParamList,
   'CarDetails'
 >;
 
 export function CarDetails(): JSX.Element {
   const navigation = useNavigation<NavigationProps>();
-  const route = useRoute();
-  const { car } = route.params as Params;
+  const route = useRoute<RouteProp<AppStackParamList, 'CarDetails'>>();
+  const { car } = route.params;
   const theme = useTheme();
 
   function handleConfirmRental(): void {

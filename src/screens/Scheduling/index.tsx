@@ -12,8 +12,7 @@ import {
 } from '../../components/Calendar';
 import { format } from 'date-fns';
 import { getPlatformDate } from '../../utils/getPlatformDate';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { CarDto } from '../../dtos/CarDTO';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import {
   Container,
   Header,
@@ -27,27 +26,23 @@ import {
   Footer,
 } from './styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes/stack.routes';
+import { AppStackParamList } from '../../routes/app.stack.routes';
 
 interface RentalPeriodData {
   startFormatted: string;
   endFormatted: string;
 }
 
-interface Params {
-  car: CarDto;
-}
-
 type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
+  AppStackParamList,
   'Scheduling'
 >;
 
 export function Scheduling(): JSX.Element {
   const theme = useTheme();
   const navigation = useNavigation<NavigationProps>();
-  const route = useRoute();
-  const { car } = route.params as Params;
+  const route = useRoute<RouteProp<AppStackParamList, 'Scheduling'>>();
+  const { car } = route.params;
 
   const [lastSelectedDate, setLastSelectedDate] = useState<DayProps>(
     {} as DayProps,

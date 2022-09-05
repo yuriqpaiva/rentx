@@ -17,18 +17,18 @@ import {
   FormTitle,
 } from './styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../routes/stack.routes';
+import { AuthStackParamList } from '../../../routes/auth.stack.routes';
 import api from '../../../services/api';
 
 type NavigationProps = NativeStackNavigationProp<
-  RootStackParamList,
+  AuthStackParamList,
   'SignUpSecondStep'
 >;
 
 export function SignUpSecondStep(): JSX.Element {
   const theme = useTheme();
   const navigation = useNavigation<NavigationProps>();
-  const route = useRoute<RouteProp<RootStackParamList, 'SignUpSecondStep'>>();
+  const route = useRoute<RouteProp<AuthStackParamList, 'SignUpSecondStep'>>();
   const { user } = route.params;
 
   const [password, setPassword] = useState('');
