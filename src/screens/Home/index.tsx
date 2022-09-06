@@ -19,18 +19,28 @@ export function Home(): JSX.Element {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchCars(): Promise<void> {
       try {
         const { data } = await api.get('/cars');
-        setCars(data);
+        if (isMounted) {
+          setCars(data);
+        }
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     fetchCars();
+    // Executed before every useEffect after first useEffect.
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   function handleCarDetails(car: CarDto): void {
