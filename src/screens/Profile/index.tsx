@@ -24,6 +24,7 @@ import {
   Section,
 } from './styles';
 import { useAuth } from '../../hooks/auth';
+import * as ImagePicker from 'expo-image-picker';
 
 export function Profile(): JSX.Element {
   const theme = useTheme();
@@ -31,6 +32,10 @@ export function Profile(): JSX.Element {
   const { user } = useAuth();
 
   const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
+
+  const [avatar, setAvatar] = useState(user.avatar);
+  const [name, setName] = useState(user.name);
+  const [driverLicense, setDriverLicense] = useState(user.driver_license);
 
   function handleBack(): void {
     navigation.goBack();
@@ -42,6 +47,23 @@ export function Profile(): JSX.Element {
     selectedOption: 'dataEdit' | 'passwordEdit',
   ): void {
     setOption(selectedOption);
+  }
+
+  async function handleAvatarSelection(): Promise<void> {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    if (result.cancelled) {
+      return;
+    }
+
+    if (result.uri) {
+      setAvatar(result.uri);
+    }
   }
 
   return (
@@ -57,12 +79,14 @@ export function Profile(): JSX.Element {
               </LogoutButton>
             </HeaderTop>
             <PhotoContainer>
-              <Photo
-                source={{
-                  uri: 'https://avatars.githubusercontent.com/u/77457083?v=4',
-                }}
-              />
-              <PhotoButton onPress={() => {}}>
+              {!!avatar && (
+                <Photo
+                  source={{
+                    uri: avatar,
+                  }}
+                />
+              )}
+              <PhotoButton onPress={handleAvatarSelection}>
                 <Feather name="camera" size={24} color={theme.colors.shape} />
               </PhotoButton>
             </PhotoContainer>
@@ -91,6 +115,7 @@ export function Profile(): JSX.Element {
                   placeholder="Nome"
                   autoCorrect={false}
                   defaultValue={user.name}
+                  onChangeText={setName}
                 />
                 <Input
                   iconName="mail"
@@ -103,6 +128,7 @@ export function Profile(): JSX.Element {
                   placeholder="CNH"
                   keyboardType="numeric"
                   defaultValue={user.driver_license}
+                  onChangeText={setDriverLicense}
                 />
               </Section>
             ) : (
