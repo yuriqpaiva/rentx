@@ -3,7 +3,6 @@ import { Home } from '../screens/Home';
 import { MyCars } from '../screens/MyCars';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppStackRoutes } from './app.stack.routes';
-
 import HomeSvg from '../assets/home.svg';
 import CarSvg from '../assets/car.svg';
 import PeopleSvg from '../assets/people.svg';
