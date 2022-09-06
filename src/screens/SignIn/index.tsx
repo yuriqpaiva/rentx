@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StatusBar,
   KeyboardAvoidingView,
@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../routes/auth.stack.routes';
 import { useAuth } from '../../hooks/auth';
+import { database } from '../../database';
 
 type NavigationProps = NativeStackNavigationProp<AuthStackParamList, 'SignIn'>;
 
@@ -55,6 +56,15 @@ export function SignIn(): JSX.Element {
   function handleNewAccount(): void {
     navigation.navigate('SignUpFirstStep');
   }
+
+  useEffect(() => {
+    async function loadData(): Promise<void> {
+      const userCollection = database.get('users');
+      const users = await userCollection.query().fetch();
+      console.log(users);
+    }
+    loadData();
+  }, []);
 
   return (
     <KeyboardAvoidingView behavior="position" enabled>
