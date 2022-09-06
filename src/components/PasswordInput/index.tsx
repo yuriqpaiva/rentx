@@ -52,6 +52,7 @@ export function PasswordInput({
         placeholderTextColor={theme.colors.text_detail}
         secureTextEntry={isPasswordVisible}
         isFocused={isFocused}
+        autoCorrect={false}
         {...rest}
       />
 

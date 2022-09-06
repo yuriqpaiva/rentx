@@ -57,7 +57,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       await database.action(async () => {
         await userCollection.create(newUser => {
           newUser.user_id = user.id;
-          newUser.name = user.id;
+          newUser.name = user.name;
           newUser.email = user.email;
           newUser.driver_license = user.driver_license;
           newUser.avatar = user.avatar;
