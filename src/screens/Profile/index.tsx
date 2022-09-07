@@ -4,7 +4,7 @@ import { useTheme } from 'styled-components';
 import { BackButton } from '../../components/BackButton';
 import { Feather } from '@expo/vector-icons';
 import { Input } from '../../components/Input';
-import { Keyboard, KeyboardAvoidingView } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { PasswordInput } from '../../components/PasswordInput';
@@ -25,11 +25,13 @@ import {
 } from './styles';
 import { useAuth } from '../../hooks/auth';
 import * as ImagePicker from 'expo-image-picker';
+import { Button } from '../../components/Button';
+import * as Yup from 'yup';
 
 export function Profile(): JSX.Element {
   const theme = useTheme();
   const navigation = useNavigation();
-  const { user, signOut } = useAuth();
+  const { user, signOut, updateUser } = useAuth();
 
   const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
 
@@ -61,6 +63,35 @@ export function Profile(): JSX.Element {
 
     if (result.uri) {
       setAvatar(result.uri);
+    }
+  }
+
+  async function handleProfileUpdate(): Promise<void> {
+    try {
+      const schema = Yup.object().shape({
+        driverLicense: Yup.string().required('CNH é obrigatória'),
+        name: Yup.string().required('Nome é obrigatório'),
+      });
+
+      const data = { name, driverLicense };
+      await schema.validate(data);
+
+      updateUser({
+        id: user.id,
+        user_id: user.id,
+        email: user.email,
+        name,
+        driver_license: driverLicense,
+        avatar,
+        token: user.token,
+      });
+
+      Alert.alert('Perfil atualizado!');
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert('Opa', error.message);
+      }
+      Alert.alert('Não foi possível atualizar o perfil');
     }
   }
 
@@ -136,6 +167,7 @@ export function Profile(): JSX.Element {
                 <PasswordInput iconName="lock" placeholder="Repetir senha" />
               </Section>
             )}
+            <Button title="Salvar alterações" onPress={handleProfileUpdate} />
           </Content>
         </Container>
       </TouchableWithoutFeedback>
