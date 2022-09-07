@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'react-native';
+import { Alert, StatusBar } from 'react-native';
 import Logo from '../../assets/logo.svg';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Car } from '../../components/Car';
@@ -10,6 +10,7 @@ import { LoadAnimation } from '../../components/LoadAnimation';
 import { Container, Header, TotalCars, HeaderContent, CarList } from './styles';
 import { AppStackParamList } from '../../routes/app.stack.routes';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 type NavigationProps = NativeStackNavigationProp<AppStackParamList, 'Home'>;
 
@@ -17,6 +18,11 @@ export function Home(): JSX.Element {
   const navigation = useNavigation<NavigationProps>();
   const [cars, setCars] = useState<CarDto[]>([]);
   const [loading, setLoading] = useState(true);
+  const netInfo = useNetInfo();
+
+  function handleCarDetails(car: CarDto): void {
+    navigation.navigate('CarDetails', { car });
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -43,9 +49,13 @@ export function Home(): JSX.Element {
     };
   }, []);
 
-  function handleCarDetails(car: CarDto): void {
-    navigation.navigate('CarDetails', { car });
-  }
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      Alert.alert('Você está on-line');
+    } else {
+      Alert.alert('Você está off-line');
+    }
+  }, [netInfo.isConnected]);
 
   return (
     <Container>
