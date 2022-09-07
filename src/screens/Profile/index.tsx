@@ -90,9 +90,27 @@ export function Profile(): JSX.Element {
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Opa', error.message);
+        return;
       }
       Alert.alert('Não foi possível atualizar o perfil');
     }
+  }
+
+  function handleSignOut(): void {
+    Alert.alert(
+      'Tem certeza?',
+      'Lembre-se que, se você sair, irá precisar de internet para conectar-se novamente',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => {},
+        },
+        {
+          text: 'Sair',
+          onPress: async () => await signOut(),
+        },
+      ],
+    );
   }
 
   return (
@@ -103,7 +121,7 @@ export function Profile(): JSX.Element {
             <HeaderTop>
               <BackButton color={theme.colors.shape} onPress={handleBack} />
               <HeaderTitle>Editar perfil</HeaderTitle>
-              <LogoutButton onPress={signOut}>
+              <LogoutButton onPress={handleSignOut}>
                 <Feather name="power" size={24} color={theme.colors.shape} />
               </LogoutButton>
             </HeaderTop>
