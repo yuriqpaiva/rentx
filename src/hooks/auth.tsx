@@ -32,6 +32,7 @@ interface SignInCredentials {
 interface AuthContextData {
   user: User;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -71,6 +72,19 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     }
   }
 
+  async function signOut(): Promise<void> {
+    try {
+      const userCollection = database.get<ModelUser>('users');
+      await database.action(async () => {
+        const selectedUser = await userCollection.find(data.id);
+        await selectedUser.destroyPermanently();
+      });
+      setData({} as User);
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
   useEffect(() => {
     async function loadUserData(): Promise<void> {
       const userCollection = database.get<ModelUser>('users');
@@ -79,6 +93,9 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       if (response.length) {
         const userData = response[0]._raw as unknown as User;
         api.defaults.headers.common.authorization = `Bearer ${userData.token}`;
+
+        console.log(JSON.stringify(userData, null, 2));
+
         setData(userData);
       }
     }
@@ -87,7 +104,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data, signIn }}>
+    <AuthContext.Provider value={{ user: data, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

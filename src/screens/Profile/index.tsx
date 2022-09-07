@@ -29,7 +29,7 @@ import * as ImagePicker from 'expo-image-picker';
 export function Profile(): JSX.Element {
   const theme = useTheme();
   const navigation = useNavigation();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
 
@@ -40,8 +40,6 @@ export function Profile(): JSX.Element {
   function handleBack(): void {
     navigation.goBack();
   }
-
-  function handleSignOut(): void {}
 
   function handleOptionChange(
     selectedOption: 'dataEdit' | 'passwordEdit',
@@ -74,7 +72,7 @@ export function Profile(): JSX.Element {
             <HeaderTop>
               <BackButton color={theme.colors.shape} onPress={handleBack} />
               <HeaderTitle>Editar perfil</HeaderTitle>
-              <LogoutButton onPress={handleSignOut}>
+              <LogoutButton onPress={signOut}>
                 <Feather name="power" size={24} color={theme.colors.shape} />
               </LogoutButton>
             </HeaderTop>
