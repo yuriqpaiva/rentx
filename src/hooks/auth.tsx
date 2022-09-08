@@ -116,8 +116,8 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         api.defaults.headers.common.authorization = `Bearer ${userData.token}`;
 
         setData(userData);
-        setLoading(false);
       }
+      setLoading(false);
     }
 
     loadUserData();

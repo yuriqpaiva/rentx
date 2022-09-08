@@ -12,7 +12,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { synchronize } from '@nozbe/watermelondb/sync';
 import { database } from '../../database';
 import { Car as CarModel } from '../../database/model/Car';
-import { CarDto } from '../../dtos/CarDTO';
 import { useNetInfo } from '@react-native-community/netinfo';
 
 type NavigationProps = NativeStackNavigationProp<AppStackParamList, 'Home'>;
@@ -24,7 +23,7 @@ export function Home(): JSX.Element {
 
   const netInfo = useNetInfo();
 
-  function handleCarDetails(car: CarDto): void {
+  function handleCarDetails(car: CarModel): void {
     navigation.navigate('CarDetails', { car });
   }
 

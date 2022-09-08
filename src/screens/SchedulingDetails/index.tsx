@@ -39,6 +39,8 @@ import {
 } from './styles';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../routes/app.stack.routes';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { CarDto } from '../../dtos/CarDTO';
 
 interface RentalPeriodData {
   start: string;
@@ -56,6 +58,9 @@ export function SchedulingDetails(): JSX.Element {
   const navigation = useNavigation<NavigationProps>();
   const route = useRoute<RouteProp<AppStackParamList, 'SchedulingDetails'>>();
   const { car, dates } = route.params;
+  const netInfo = useNetInfo();
+
+  const [carUpdated, setCarUpdated] = useState({} as CarDto);
 
   const [loading, setLoading] = useState(false);
 
@@ -67,27 +72,14 @@ export function SchedulingDetails(): JSX.Element {
 
   async function handleConfirm(): Promise<void> {
     setLoading(true);
-    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
 
-    const unavailable_dates = [
-      ...schedulesByCar.data.unavailable_dates,
-      ...dates,
-    ];
-
-    await api.post(`/schedules_byuser`, {
-      user_id: 1,
-      car,
-      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-      endDate: format(
-        getPlatformDate(new Date(dates[dates.length - 1])),
-        'dd/MM/yyyy',
-      ),
-    });
-
-    api
-      .put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates,
+    await api
+      .post('rentals', {
+        user_id: 1,
+        car_id: car.id,
+        start_date: new Date(dates[0]),
+        end_date: new Date(dates[dates.length - 1]),
+        total: rentTotal,
       })
       .then(() =>
         navigation.navigate('Confirmation', {
@@ -97,7 +89,9 @@ export function SchedulingDetails(): JSX.Element {
           nextScreenRoute: 'Home',
         }),
       )
-      .catch(() => {
+      .catch(error => {
+        console.log(JSON.stringify(error, null, 2));
+
         setLoading(false);
         Alert.alert('Não foi possível confirmar o agendamento');
       });
@@ -117,6 +111,18 @@ export function SchedulingDetails(): JSX.Element {
     });
   }, []);
 
+  useEffect(() => {
+    async function fetchCarUpdated(): Promise<void> {
+      // Get a car by ID
+      const { data } = await api.get(`/cars/${car.id}`);
+      setCarUpdated(data);
+    }
+
+    if (netInfo.isConnected === true) {
+      fetchCarUpdated();
+    }
+  }, [netInfo.isConnected]);
+
   return (
     <Container>
       <Header>
@@ -124,7 +130,13 @@ export function SchedulingDetails(): JSX.Element {
       </Header>
 
       <CardImages>
-        <ImageSlider imagesUrl={car.photos} />
+        <ImageSlider
+          imagesUrl={
+            carUpdated.photos
+              ? carUpdated.photos
+              : [{ id: car.thumbnail, photo: car.thumbnail }]
+          }
+        />
       </CardImages>
 
       <Content>
@@ -136,20 +148,21 @@ export function SchedulingDetails(): JSX.Element {
 
           <Rent>
             <Period>{car.period}</Period>
-            <Price>R$ ${car.price}</Price>
+            <Price>R$ {netInfo.isConnected === true ? car.price : '...'}</Price>
           </Rent>
         </Details>
 
-        <Accessories>
-          {car.accessories.map(accessory => (
-            <Accessory
-              key={accessory.type}
-              name={accessory.name}
-              icon={getAccessoryIcon(accessory.type)}
-            />
-          ))}
-        </Accessories>
-
+        {carUpdated?.accessories && (
+          <Accessories>
+            {carUpdated.accessories.map(accessory => (
+              <Accessory
+                name={accessory.name}
+                icon={getAccessoryIcon(accessory.type)}
+                key={accessory.type}
+              />
+            ))}
+          </Accessories>
+        )}
         <RentalPeriod>
           <CalendarIcon>
             <Feather
