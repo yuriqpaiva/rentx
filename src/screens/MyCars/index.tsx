@@ -1,10 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
-import { CarDto } from '../../dtos/CarDTO';
 import api from '../../services/api';
 import { AntDesign } from '@expo/vector-icons';
 import {
@@ -25,22 +24,24 @@ import {
 import { LoadAnimation } from '../../components/LoadAnimation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../../routes/app.stack.routes';
+import { Car as CarModel } from '../../database/model/Car';
+import { format, parseISO } from 'date-fns';
 
-interface CarProps {
+interface DataProps {
   id: string;
-  user_id: string;
-  car: CarDto;
-  startDate: string;
-  endDate: string;
+  car: CarModel;
+  start_date: string;
+  end_date: string;
 }
 
 type NavigationProps = NativeStackNavigationProp<AppStackParamList, 'MyCars'>;
 
 export function MyCars(): JSX.Element {
-  const [cars, setCars] = useState<CarProps[]>([]);
+  const [cars, setCars] = useState<DataProps[]>([]);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
   const navigation = useNavigation<NavigationProps>();
+  const screenIsFocused = useIsFocused();
 
   function handleBack(): void {
     navigation.goBack();
@@ -49,9 +50,18 @@ export function MyCars(): JSX.Element {
   useEffect(() => {
     async function fetchCars(): Promise<void> {
       try {
-        const { data } = await api.get('/schedules_byuser?user_id=1');
+        const { data } = await api.get('/rentals');
 
-        setCars(data);
+        const dataFormatted = data.map((data: DataProps) => {
+          return {
+            id: data.id,
+            car: data.car,
+            start_date: format(parseISO(data.start_date), 'dd/MM/yyyy'),
+            end_date: format(parseISO(data.start_date), 'dd/MM/yyyy'),
+          };
+        });
+
+        setCars(dataFormatted);
       } catch (error) {
         console.log(error);
       } finally {
@@ -60,7 +70,7 @@ export function MyCars(): JSX.Element {
     }
 
     fetchCars();
-  }, []);
+  }, [screenIsFocused]);
 
   return (
     <Container>
@@ -95,14 +105,14 @@ export function MyCars(): JSX.Element {
                 <CarFooter>
                   <CarFooterTitle>Período</CarFooterTitle>
                   <CarFooterPeriod>
-                    <CarFooterDate>{item.startDate}</CarFooterDate>
+                    <CarFooterDate>{item.start_date}</CarFooterDate>
                     <AntDesign
                       name="arrowright"
                       size={20}
                       color={theme.colors.title}
                       style={{ marginHorizontal: 10 }}
                     />
-                    <CarFooterDate>{item.endDate}</CarFooterDate>
+                    <CarFooterDate>{item.end_date}</CarFooterDate>
                   </CarFooterPeriod>
                 </CarFooter>
               </CarWrapper>
