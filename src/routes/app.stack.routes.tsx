@@ -7,13 +7,14 @@ import { SchedulingDetails } from '../screens/SchedulingDetails';
 import { Confirmation } from '../screens/Confirmation';
 import { MyCars } from '../screens/MyCars';
 import { CarDto } from '../dtos/CarDTO';
+import { Car as CarModel } from '../database/model/Car';
 import { Splash } from '../screens/Splash';
 
 export type AppStackParamList = {
   Splash: undefined;
   Home: undefined;
   CarDetails: {
-    car: CarDto;
+    car: CarModel;
   };
   Scheduling: {
     car: CarDto;
